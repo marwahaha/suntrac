@@ -1,163 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>SUNTRAC Screening Tool</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=100, initial-scale=1">
+
+    <style>
+        /* layout */
+        html {
+            background-color: #EEEEEE;
+        }
+
+        body {
+            background-color: white;
+            max-width: 600px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            justify-content: center;
+            padding-bottom: 10px;
+        }
+
+        /* questions */
+        .questiontext {
+            padding-top: 5px;
+        }
+
+        .question {
+            margin-bottom: 10px;
+        }
+
+        .active {
+            font-weight: bold;
+        }
+
+        /* results */
+        .results {
+            text-align: center;
+            border: 1px solid black;
+            padding: 10px;
+            padding-bottom: 0;
+        }
+
+        .risk {
+            font-weight: bold;
+        }
+    </style>
 </head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=100, initial-scale=1">
-
-<style>
-    /* layout */
-    html {
-        background-color: #EEEEEE;
-    }
-
-    body {
-        background-color: white;
-        max-width: 600px;
-        width: 100%;
-        margin: auto;
-        padding: 20px;
-        font-size: 16px;
-    }
-
-    .title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        justify-content: center;
-        padding-bottom: 10px;
-    }
-
-    /* questions */
-    .questiontext {
-        padding-top: 5px;
-    }
-
-    .question {
-        margin-bottom: 10px;
-    }
-
-    .active {
-        font-weight: bold;
-    }
-
-    /* results */
-    .results {
-        text-align: center;
-        border: 1px solid black;
-        padding: 10px;
-        padding-bottom: 0;
-    }
-
-    .risk {
-        font-weight: bold;
-    }
-</style>
-
-<script>
-    var questions = {};
-
-    var riskInfos = {
-        "LOW": ["10 years", 1.01, 2.33],
-        "MEDIUM": ["2 years", 6.15, 13.73],
-        "HIGH": ["1 year", 15.14, 31.75],
-        "VERY HIGH": ["6 months", 44.75, 74.85],
-    }
-
-    function setAnswer(obj) {
-        var buttons = obj.parentNode.children;
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].className = "btn btn-outline-dark";
-        }
-        obj.className = "btn btn-primary active";
-        var question = obj.parentNode.parentNode.dataset.question;
-        questions[question] = obj.innerText;
-        generateResults();
-    }
-
-    function generateResults() {
-        var riskLevel = calculateRisk();
-        var riskInfo = riskInfos[riskLevel];
-        document.getElementById("risk-level").innerText = riskLevel;
-        document.getElementById("risk-time").innerText = riskInfo[0];
-        document.getElementById("risk-5yrs").innerText = riskInfo[1];
-        document.getElementById("risk-10yrs").innerText = riskInfo[2];
-    }
-
-    function calculateRisk() {
-        var isCaucasian = questions['caucasian'] === 'Yes';
-        var hadSkinCancer = questions['skincancerhistory'] === 'Yes';
-        var atLeast50 = questions['atleast50'] === 'Yes';
-        var isMale = questions['ismale'] === 'Yes';
-        var isHeartOrLungTxp = questions['heartorlungtxp'] === 'Yes';
-        if (!isCaucasian) {
-            if (!hadSkinCancer) {
-                if (!atLeast50) {
-                    return "LOW";
-                } else {
-                    if (!isMale) {
-                        return "LOW";
-                    } else {
-                        if (!isHeartOrLungTxp) {
-                            return "LOW";
-                        } else {
-                            return "MEDIUM";
-                        }
-                    }
-                }
-            } else {
-                if (atLeast50) {
-                    return "MEDIUM";
-                } else {
-                    if (isMale) {
-                        return "MEDIUM";
-                    } else {
-                        if (isHeartOrLungTxp) {
-                            return "MEDIUM";
-                        } else {
-                            return "LOW";
-                        }
-                    }
-                }
-            }
-        } else {
-            if (!hadSkinCancer) {
-                if (!atLeast50) {
-                    return "MEDIUM";
-                } else {
-                    if (!isMale) {
-                        if (!isHeartOrLungTxp) {
-                            return "MEDIUM";
-                        } else {
-                            return "HIGH";
-                        }
-                    } else {
-                        return "HIGH";
-                    }
-                }
-            } else {
-                if (atLeast50) {
-                    return "VERY HIGH";
-                } else {
-                    if (isMale) {
-                        if (isHeartOrLungTxp) {
-                            return "VERY HIGH";
-                        } else {
-                            return "HIGH";
-                        }
-                    } else {
-                        return "HIGH";
-                    }
-                }
-            }
-        }
-        return "SITE ERROR";
-    }
-
-</script>
 
 <body>
     <div class="container">
@@ -208,12 +106,111 @@
         <div class='results'>
             <p>Risk is <span class='risk' id='risk-level'></span></p>
             <p>Screen within <span class='risk' id='risk-time'></span> of transplant</p>
-            <p>Average 5-yr skin cancer risk: <span class='risk' id='risk-5yrs'></span>&#37</p>
-            <p>Average 10-yr skin cancer risk: <span class='risk' id='risk-10yrs'></span>&#37</p>
+            <p>Average 5-yr skin cancer risk: <span class='risk' id='risk-5yrs'></span>&#37;</p>
+            <p>Average 10-yr skin cancer risk: <span class='risk' id='risk-10yrs'></span>&#37;</p>
         </div>
     </div>
-    </div>
+
     <script>
+        var questions = {};
+
+        var riskInfos = {
+            "LOW": ["10 years", 1.01, 2.33],
+            "MEDIUM": ["2 years", 6.15, 13.73],
+            "HIGH": ["1 year", 15.14, 31.75],
+            "VERY HIGH": ["6 months", 44.75, 74.85],
+        }
+
+        function setAnswer(obj) {
+            var buttons = obj.parentNode.children;
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].className = "btn btn-outline-dark";
+            }
+            obj.className = "btn btn-primary active";
+            var question = obj.parentNode.parentNode.dataset.question;
+            questions[question] = obj.innerText;
+            generateResults();
+        }
+
+        function generateResults() {
+            var riskLevel = calculateRisk();
+            var riskInfo = riskInfos[riskLevel];
+            document.getElementById("risk-level").innerText = riskLevel;
+            document.getElementById("risk-time").innerText = riskInfo[0];
+            document.getElementById("risk-5yrs").innerText = riskInfo[1];
+            document.getElementById("risk-10yrs").innerText = riskInfo[2];
+        }
+
+        function calculateRisk() {
+            var isCaucasian = questions['caucasian'] === 'Yes';
+            var hadSkinCancer = questions['skincancerhistory'] === 'Yes';
+            var atLeast50 = questions['atleast50'] === 'Yes';
+            var isMale = questions['ismale'] === 'Yes';
+            var isHeartOrLungTxp = questions['heartorlungtxp'] === 'Yes';
+            if (!isCaucasian) {
+                if (!hadSkinCancer) {
+                    if (!atLeast50) {
+                        return "LOW";
+                    } else {
+                        if (!isMale) {
+                            return "LOW";
+                        } else {
+                            if (!isHeartOrLungTxp) {
+                                return "LOW";
+                            } else {
+                                return "MEDIUM";
+                            }
+                        }
+                    }
+                } else {
+                    if (atLeast50) {
+                        return "MEDIUM";
+                    } else {
+                        if (isMale) {
+                            return "MEDIUM";
+                        } else {
+                            if (isHeartOrLungTxp) {
+                                return "MEDIUM";
+                            } else {
+                                return "LOW";
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!hadSkinCancer) {
+                    if (!atLeast50) {
+                        return "MEDIUM";
+                    } else {
+                        if (!isMale) {
+                            if (!isHeartOrLungTxp) {
+                                return "MEDIUM";
+                            } else {
+                                return "HIGH";
+                            }
+                        } else {
+                            return "HIGH";
+                        }
+                    }
+                } else {
+                    if (atLeast50) {
+                        return "VERY HIGH";
+                    } else {
+                        if (isMale) {
+                            if (isHeartOrLungTxp) {
+                                return "VERY HIGH";
+                            } else {
+                                return "HIGH";
+                            }
+                        } else {
+                            return "HIGH";
+                        }
+                    }
+                }
+            }
+            return "SITE ERROR";
+        }
+
         function resetButtons() {
             var buttons = document.getElementsByTagName("button");
             for (var idx = 0; idx < buttons.length; idx++) {

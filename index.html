@@ -23,11 +23,21 @@
             font-size: 16px;
         }
 
+        a {
+            color: green;
+        }
+
+        /* title */
         .title {
             font-weight: bold;
             margin-bottom: 10px;
             justify-content: center;
             padding-bottom: 10px;
+        }
+
+        .sup {
+            vertical-align: super;
+            font-size: small;
         }
 
         /* questions */
@@ -60,7 +70,9 @@
 <body>
     <div class="container">
         <div class="row title">
-            SUNTRAC Screening Tool
+            SUNTRAC<span class="sup"><a href="https://onlinelibrary.wiley.com/doi/epdf/10.1111/tri.13493"
+                    target="_blank">*</a></span>&nbsp;Screening
+            Tool
         </div>
         <div class="question row" data-question="caucasian">
             <div class="questiontext col">Caucasian?</div>
